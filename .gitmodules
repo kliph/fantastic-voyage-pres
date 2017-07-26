@@ -1,0 +1,6 @@
+[submodule "fantastic-voyage"]
+	path = fantastic-voyage
+	url = git@github.com:kliph/fantastic-voyage.git
+[submodule "myapp"]
+	path = myapp
+	url = ./myapp/

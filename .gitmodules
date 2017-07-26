@@ -3,4 +3,4 @@
 	url = git@github.com:kliph/fantastic-voyage.git
 [submodule "myapp"]
 	path = myapp
-	url = ./myapp/
+	url = git@github.com:kliph/myapp.git

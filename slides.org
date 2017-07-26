@@ -74,8 +74,8 @@ Change the build target for =main.js=
   %h1 Hello world
   %= javascript_pack_tag 'main'
 #+END_SRC
+* Advanced optimizations
 * Why would you want to choose webpack?
-
 * Cleaning up after yourself
 #+BEGIN_SRC clojure
   :clean-targets ^{:protect false} [:target-path "out"
@@ -85,3 +85,8 @@ Change the build target for =main.js=
                                     "../myapp/app/assets/javascripts/main.js"]
 
 #+END_SRC
+* Todo MVC Reagent
+http://todomvc.com/examples/reagent/
+* Todo MVC React
+http://todomvc.com/examples/react/
+* Webpack vs Google Closure Compiler

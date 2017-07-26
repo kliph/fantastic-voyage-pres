@@ -1,0 +1,87 @@
+#+OPTIONS: num:nil
+* Come along and ride on a fantastic voyage
+Cliff Rodgers
+
+@2kliph
+
+[[https://github.com/kliph][github.com/kliph]]
+* What is it
+- =org-mode= for slide authoring
+- ClojureScript for parsing and dynamic slide presentation
+- One Rails to serve it all
+  - Webpacker to marry ClojureScript to Rails
+* Source blocks
+We got that
+
+#+BEGIN_SRC clojurescript
+  (defn hello-world []
+    (js/console.log "Hello World!"))
+
+#+END_SRC
+* Create a rails app
+#+BEGIN_SRC shell
+  rails new myapp --webpack
+
+#+END_SRC
+* Create a view and route to it
+#+BEGIN_SRC haml :tangle app/views/application/show.html.haml
+  %h1 Hello world
+  %= javascript_pack_tag 'application'
+#+END_SRC
+
+#+BEGIN_SRC ruby :tangle app/config/routes.rb
+  Rails.application.routes.draw do
+    root 'application#show'
+  end
+#+END_SRC
+* Change the compilation targets
+=:output-to= and =:output-dir=
+
+Throw =:output-dir= into =/public=, first approach.  Probably not
+optimal.  Why might we want to use the asset pipeline or something
+like Webpack?  Maybe comparison to equivalent hello world in React
+Webpacker?  Maybe comparison for =:advanced= optimizations?
+
+Source mapping works!
+
+React loads before the DOM's finished.  Could work around by waiting
+for =DOMContentLoaded= event.  Would also need to work with
+Turbolinks.
+* Use =javascript_include_tag=
+
+#+BEGIN_SRC haml :tangle app/views/application/show.html.haml
+  %h1 Hello world
+  %= javascript_include_tag 'main'
+#+END_SRC
+* Advanced optimizations
+5.5 mb of source-mapped Figwheel REPL driven dev simplicity compiles
+to total payload of 343 kb with =:advanced= optimizations.
+* Webpack works similarly
+You'll need to start up the webpack build process
+#+BEGIN_SRC shell
+  ./bin/webpack --watch --progress --colors
+
+#+END_SRC
+* Webpack uses a different build target
+Change the build target for =main.js=
+
+#+BEGIN_SRC clojure
+  :output-to "../myapp/app/javascript/packs/main.js"
+#+END_SRC
+* Use =javascript_pack_tag=
+
+#+BEGIN_SRC haml :tangle app/views/application/show.html.haml
+  %h1 Hello world
+  %= javascript_pack_tag 'main'
+#+END_SRC
+* Why would you want to choose webpack?
+
+* Cleaning up after yourself
+#+BEGIN_SRC clojure
+  :clean-targets ^{:protect false} [:target-path "out"
+                                    "resources/public/js"
+                                    "../myapp/public/js/"
+                                    "../myapp/app/javascript/packs/main.js"
+                                    "../myapp/app/assets/javascripts/main.js"]
+
+#+END_SRC
